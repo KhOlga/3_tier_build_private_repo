@@ -36,7 +36,7 @@ jobs:
       - name: Build and push UI
         uses: docker/build-push-action@v6
         with:
-          file: ./ui/oldDockerfile
+          file: ./ui/Dockerfile
           push: true
           tags: |
             kholha/ui-app:latest
