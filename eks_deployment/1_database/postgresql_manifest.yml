@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-3tier-postgres-deploy
+  namespace: olha-namespace
+  labels:
+    app: basic-3tier-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basic-3tier-postgres
+  template:
+    metadata:
+      name: basic-3tier-postgres
+      labels:
+        app: basic-3tier-postgres
+    spec:
+      containers:
+        - name: basic-3tier-postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: admin123
+            - name: POSTGRES_DB
+              value: basic3tier
+          ports:
+            - containerPort: 5432

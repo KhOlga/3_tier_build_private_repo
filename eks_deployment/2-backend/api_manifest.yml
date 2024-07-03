@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: olha-api-app-deploy
+  namespace: olha-namespace
+  labels:
+    app: olha-api-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: olha-api-app
+  template:
+    metadata:
+      name: olha-api-app
+      labels:
+        app: olha-api-app
+    spec:
+      containers:
+        - name: olha-api-app
+          image: kholha/api-app:latest
+          ports:
+            - containerPort: 80

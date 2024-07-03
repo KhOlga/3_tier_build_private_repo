@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ui-configmap
+  namespace: olha-namespace
+data:
+  config.json: |
+    { 
+      "API_URL" : "http://a7a315de883df4dcdbba68ff6cb68715-466603367.eu-central-1.elb.amazonaws.com/"
+    }
