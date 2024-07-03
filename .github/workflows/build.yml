@@ -53,8 +53,8 @@ jobs:
           tags: |
             kholha/api-app:latest
             kholha/api-app:1.0.0
-          cache-from: type=registry,ref=kholha/api-app:buildcache
-          cache-to: type=registry,ref=kholha/api-app:buildcache,mode=min
+          cache-from: type=registry,ref=kholha/api-app:latest
+          cache-to: type=registry,ref=kholha/api-app:latest,mode=min
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
