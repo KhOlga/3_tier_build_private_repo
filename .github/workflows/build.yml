@@ -44,17 +44,15 @@ jobs:
 
       # Build API image WITHOUT CACHE and push to DockerHub
       - name: Build and push API
-        run: docker build . --file ./api/Dockerfile --tag kholha/api-app:latest --no-cache true
-
-#        uses: docker/build-push-action@v6
-#        with:
-#          file: ./api/Dockerfile
-#          push: true
-#          tags: |
-#            kholha/api-app:latest
-#            kholha/api-app:1.0.0
-#          cache-from: type=gha
-#          cache-to: type=gha,mode=max
+        uses: docker/build-push-action@v6
+        with:
+          file: ./api/Dockerfile
+          push: true
+          tags: |
+            kholha/api-app:latest
+            kholha/api-app:1.0.0
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
 
       - name: Configure AWS credentials
