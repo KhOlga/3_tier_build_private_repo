@@ -43,8 +43,9 @@ jobs:
           tags: |
             kholha/api-app:latest
             kholha/api-app:1.0.0
-          cache: false
-          cache-from: type=registry,ref=kholha/api-app:latest build-arg=BUILDKIT_INLINE_CACHE=1
+          cache-from: type=registry,ref=kholha/api-app:latest
+          cache-to: type=inline
+          mode: min
 
       - name: Check out code
         uses: actions/checkout@v2
