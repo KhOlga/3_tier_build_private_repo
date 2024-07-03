@@ -52,7 +52,7 @@ jobs:
             kholha/api-app:latest
             kholha/api-app:1.0.0
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=min
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
