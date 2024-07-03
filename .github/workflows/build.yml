@@ -44,7 +44,7 @@ jobs:
 
       # Build API image WITHOUT CACHE and push to DockerHub
       - name: Build and push API
-        run: docker build . --file ./api/Dockerfile --tag kholha/api-app:latest
+        run: docker build . --file ./api/Dockerfile --tag kholha/api-app:latest --no-cache true
 
 #        uses: docker/build-push-action@v6
 #        with:
