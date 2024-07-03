@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push frontend
+      - name: Build and push UI
         uses: docker/build-push-action@v6
         with:
           file: ./ui/Dockerfile
@@ -34,7 +34,8 @@ jobs:
             kholha/ui-app:latest
             kholha/ui-app:1.0.0
 
-      - name: Build and push backend
+      # Build with cache
+      - name: Build and push API
         uses: docker/build-push-action@v6
         with:
           file: ./api/Dockerfile
@@ -42,8 +43,8 @@ jobs:
           tags: |
             kholha/api-app:latest
             kholha/api-app:1.0.0
-          cache-from: type=registry,ref=kholha/api-app:latest
-          cache-to: type=inline
+          cache: false
+          cache-from: type=registry,ref=kholha/api-app:latest build-arg=BUILDKIT_INLINE_CACHE=1
 
       - name: Check out code
         uses: actions/checkout@v2
