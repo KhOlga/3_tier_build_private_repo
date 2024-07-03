@@ -2,19 +2,26 @@ name: Deploy to EKS
 
 on:
   push:
-    branches:
-      - 'master'
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 #env:
 #  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME}}
 #  AWS_REGION: ${{ vars.AWS_REGION}}
 
 jobs:
+
   docker:
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
+      - name: Check out code
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -25,6 +32,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Build UI image and push to DockerHub
       - name: Build and push UI
         uses: docker/build-push-action@v6
         with:
@@ -34,7 +42,7 @@ jobs:
             kholha/ui-app:latest
             kholha/ui-app:1.0.0
 
-      # Build with cache
+      # Build API image WITHOUT CACHE and push to DockerHub
       - name: Build and push API
         uses: docker/build-push-action@v6
         with:
@@ -43,11 +51,8 @@ jobs:
           tags: |
             kholha/api-app:latest
             kholha/api-app:1.0.0
-          cache-from: type=registry,ref=kholha/api-app:latest,mode=min
-          cache-to: type=registry,ref=kholha/api-app:1.0.0,mode=min
+          no-cache: true
 
-      - name: Check out code
-        uses: actions/checkout@v2
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
