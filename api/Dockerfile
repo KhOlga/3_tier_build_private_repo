@@ -13,7 +13,8 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["Basic3TierAPI/Basic3TierAPI.csproj", "Basic3TierAPI/"]
+#COPY ["Basic3TierAPI/Basic3TierAPI.csproj", "Basic3TierAPI/"]
+COPY ["Basic3TierAPI.csproj", "Basic3TierAPI/"]
 RUN dotnet restore "./Basic3TierAPI/Basic3TierAPI.csproj"
 
 WORKDIR "/src/Basic3TierAPI"
