@@ -36,6 +36,7 @@ jobs:
       - name: Build and push UI
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           file: ./ui/Dockerfile
           push: true
           tags: |
@@ -46,13 +47,14 @@ jobs:
       - name: Build and push API
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           file: ./api/Dockerfile
           push: true
           tags: |
             kholha/api-app:latest
             kholha/api-app:1.0.0
-          cache-from: type=gha
-          cache-to: type=gha,mode=min
+          cache-from: type=registry,ref=kholha/api-app:buildcache
+          cache-to: type=registry,ref=kholha/api-app:buildcache,mode=min
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
