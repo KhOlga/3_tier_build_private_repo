@@ -55,7 +55,7 @@ jobs:
 #          cache-to: type=gha,mode=max
 
       - name: Build Docker image
-        run: docker build --no-cache -t kholha/api-app:1.0.1 ../../api/Dockerfile
+        run: docker build --no-cache -t kholha/api-app:1.0.1 ./../../api/Dockerfile
 
         #Uncomment the following steps if you want to push the image to Docker Hub
       - name: Tag Docker image
