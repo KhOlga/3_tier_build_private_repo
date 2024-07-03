@@ -36,34 +36,23 @@ jobs:
       - name: Build and push UI
         uses: docker/build-push-action@v6
         with:
-          file: ./ui/Dockerfile
+          file: ./ui/oldDockerfile
           push: true
           tags: |
             kholha/ui-app:latest
             kholha/ui-app:1.0.0
 
       # Build API image WITHOUT CACHE and push to DockerHub
-#      - name: Build and push API
-#        uses: docker/build-push-action@v6
-#        with:
-#          file: ./api/Dockerfile
-#          push: true
-#          tags: |
-#            kholha/api-app:latest
-#            kholha/api-app:1.0.0
-#          cache-from: type=gha
-#          cache-to: type=gha,mode=max
-
-      - name: Build Docker image
-        run: docker build --no-cache -t kholha/api-app:1.0.1 ./../../api/Dockerfile
-
-        #Uncomment the following steps if you want to push the image to Docker Hub
-      - name: Tag Docker image
-        run: docker tag my-image-name kholha/api-app:1.0.1
-
-      - name: Push Docker image
-        run: docker push kholha/api-app:1.0.1
-
+      - name: Build and push API
+        uses: docker/build-push-action@v6
+        with:
+          file: ./api/Dockerfile
+          push: true
+          tags: |
+            kholha/api-app:latest
+            kholha/api-app:1.0.0
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
