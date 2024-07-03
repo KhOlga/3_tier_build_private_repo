@@ -1,0 +1,68 @@
+name: Deploy to EKS
+
+on:
+  push:
+    branches:
+      - 'master'
+
+env:
+  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME}}
+  AWS_REGION: ${{ vars.AWS_REGION}}
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          file: ./ui/Dockerfile
+          push: true
+          tags: |
+            kholha/ui-app:latest
+            kholha/ui-app:1.0.0 
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
+        with:
+          file: ./api/Dockerfile
+          push: true
+          tags: |
+            kholha/api-app:latest
+            kholha/api-app:1.0.0  
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ envs.AWS_REGION }}
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f ./eks_deployment/namespace.yml
+          kubectl apply -f ./eks_deployment/1_database/postgresql_manifest.yml
+          kubectl apply -f ./eks_deployment/1_database/postgresql_service_cluster_ip.yml
+          kubectl apply -f ./eks_deployment/2-backend/api_manifest.yml
+          kubectl apply -f ./eks_deployment/2-backend/api_service_loadbalancer.yml
+          kubectl apply -f ./eks_deployment/3-frontend/config_map.yml
+          kubectl apply -f ./eks_deployment/3-frontend/ui_manifest.yml
+          kubectl apply -f ./eks_deployment/3-frontend/ui_service_loadbalancer.yml
