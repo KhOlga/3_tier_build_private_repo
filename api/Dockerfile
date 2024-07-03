@@ -20,7 +20,7 @@ RUN dotnet restore "./Basic3TierAPI/Basic3TierAPI.csproj"
 WORKDIR "/src/Basic3TierAPI"
 COPY . .
 
-RUN dotnet build "./Basic3TierAPI/Basic3TierAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Basic3TierAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 
 # RUNTIME
@@ -28,7 +28,7 @@ FROM build AS publish
 
 ARG BUILD_CONFIGURATION=Release
 
-RUN dotnet publish "./Basic3TierAPI/Basic3TierAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Basic3TierAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 
 # PUBLISHING
