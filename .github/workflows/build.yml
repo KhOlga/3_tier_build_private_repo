@@ -5,9 +5,9 @@ on:
     branches:
       - 'master'
 
-env:
-  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME}}
-  AWS_REGION: ${{ vars.AWS_REGION}}
+#env:
+#  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME}}
+#  AWS_REGION: ${{ vars.AWS_REGION}}
 
 jobs:
   docker:
@@ -32,7 +32,7 @@ jobs:
           push: true
           tags: |
             kholha/ui-app:latest
-            kholha/ui-app:1.0.0 
+            kholha/ui-app:1.0.0
 
       - name: Build and push backend
         uses: docker/build-push-action@v6
@@ -41,7 +41,9 @@ jobs:
           push: true
           tags: |
             kholha/api-app:latest
-            kholha/api-app:1.0.0  
+            kholha/api-app:1.0.0
+          cache-from: type=registry,ref=kholha/api-app:latest
+          cache-to: type=inline
 
       - name: Check out code
         uses: actions/checkout@v2
