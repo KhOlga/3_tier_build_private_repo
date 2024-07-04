@@ -48,8 +48,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
-#          file: ./api/Dockerfile
-          file: ./Dockerfile
+          file: ./api/Dockerfile
           push: true
           tags: |
             kholha/api-app:latest
