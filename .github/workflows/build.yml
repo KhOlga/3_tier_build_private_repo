@@ -69,7 +69,7 @@ jobs:
 
       - name: Deploy to EKS
         run: |
-          kubectl apply -f ./eks_deployment/namespace.yml
+#          kubectl apply -f ./eks_deployment/namespace.yml
           kubectl apply -f ./eks_deployment/1_database/postgresql_manifest.yml
           kubectl apply -f ./eks_deployment/1_database/postgresql_service_cluster_ip.yml
           kubectl apply -f ./eks_deployment/2-backend/api_manifest.yml
