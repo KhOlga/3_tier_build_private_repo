@@ -43,19 +43,19 @@ jobs:
             kholha/ui-app:latest
             kholha/ui-app:1.0.0
 
-      # Build API image WITHOUT CACHE and push to DockerHub
-      - name: Build and push API
-        uses: docker/build-push-action@v6
-        with:
-          platforms: linux/amd64,linux/arm64
-          file: ./api/Dockerfile
-          push: true
-          tags: |
-            kholha/api-app:latest
-            kholha/api-app:1.0.0
-#          no-cache: true
-          cache-from: type=registry,ref=kholha/api-app:latest
-          cache-to: type=registry,ref=kholha/api-app:latest,mode=min
+#      # Build API image WITHOUT CACHE and push to DockerHub
+#      - name: Build and push API
+#        uses: docker/build-push-action@v6
+#        with:
+#          platforms: linux/amd64,linux/arm64
+#          file: ./api/Dockerfile
+#          push: true
+#          tags: |
+#            kholha/api-app:latest
+#            kholha/api-app:1.0.0
+##          no-cache: true
+#          cache-from: type=registry,ref=kholha/api-app:latest
+#          cache-to: type=registry,ref=kholha/api-app:latest,mode=min
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
