@@ -18,8 +18,9 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath
-          playbook: ./ansible/install_docker.yml
-
+          playbook: install_docker.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible/
           # Optional, ansible configuration file content (ansible.cfg)
           configuration: |
             [defaults]
