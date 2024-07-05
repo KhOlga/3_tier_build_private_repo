@@ -56,4 +56,16 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Run Ansible playbook
-        run: ansible-playbook ./ansible/install_docker.yml -i hosts.yml
+        run: ansible-playbook ./ansible/install_docker.yml -i ./ansible/hosts.yml
+
+      - name: Pull images from DockerHub
+        run: |
+          docker pull postgres:latest
+          docker pull kholha/api-app:latest
+          docker pull kholha/ui-app:latest
+
+      - name: Run containers
+        run: |
+          docker docker compose up -d postgres:latest
+          docker docker compose up -d kholha/api-app:latest
+          docker docker compose up -d kholha/ui-app:latest
