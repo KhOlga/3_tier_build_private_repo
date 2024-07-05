@@ -15,21 +15,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@v2
+        uses: gbh-tech/ansible-deployment@v0.0.3
         with:
-          # Required, playbook filepath
-          playbook: ansible/install_docker.yml
-          # Optional, directory where playbooks live
-          directory: ./
-          # Optional, ansible configuration file content (ansible.cfg)
-          configuration: |
-            [defaults]
-            callbacks_enabled = ansible.posix.profile_tasks, ansible.posix.timer
-            stdout_callback = yaml
-            nocows = false
-          # Optional, SSH private key
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # Optional, literal inventory file contents
+          playbook_path: 'ansible'
+          playbook_name: 'install_docker.yml'
+          workdir: 'ansible'
+          dry_run: true
+          no_log: true
+          aws_region: ${{ vars.AWS_REGION}}
+          aws_access_key_id: ${{ vars.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ansible_tags: >-
+            auth,
+            env-vars,
+            info
           inventory: |
             [all]
             oha-docker-ec2: ansible_host=3.71.77.111 ansible_ssh_user=ubuntu ansible_connection=ssh ansible_ssh_private_key_file=test-test-test.pem
