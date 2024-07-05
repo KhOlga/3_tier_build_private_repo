@@ -72,7 +72,7 @@ jobs:
 
       - name: Deploy UI
         run: |
-            BACKEND_HOSTNAME=$(kubectl -n olha-namespace get svc backend-lb -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+            BACKEND_HOSTNAME=$(kubectl -n olha-namespace get svc olha-api-app-loadbalancer-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
             sed -i "s@\"API_URL\":.*@\"API_URL\": \"$BACKEND_HOSTNAME/\"@" ./eks_deployment/config_map.yml
             kubectl apply -f ./eks_deployment/config_map.yml
             kubectl apply -f ./eks_deployment/ui_manifest.yml
