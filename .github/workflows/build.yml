@@ -66,6 +66,6 @@ jobs:
 
       - name: Run containers
         run: |
-          docker docker compose up -d postgres:latest
-          docker docker compose up -d kholha/api-app:latest
-          docker docker compose up -d kholha/ui-app:latest
+          docker up -d postgres:latest
+          docker up -d kholha/api-app:latest
+          docker up -d kholha/ui-app:latest
