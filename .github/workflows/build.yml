@@ -11,8 +11,8 @@ env:
   AWS_REGION: ${{ vars.AWS_REGION}}
 
 jobs:
-  docker_images:
-    name: docker_images
+  deploy:
+    name: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -52,11 +52,6 @@ jobs:
 #            kholha/api-app:latest
 #            kholha/api-app:1.0.0
 
-  eks_deploy:
-    name: eks_deploy
-    runs-on: ubuntu-latest
-    needs: docker_images
-    steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -69,16 +64,16 @@ jobs:
 
       - name: Deploy DB & API to EKS
         run: |
-            kubectl apply -f namespace.yml
-            kubectl apply -f postgresql_manifest.yml
-            kubectl apply -f postgresql_service_cluster_ip.yml
-            kubectl apply -f api_manifest.yml
-            kubectl apply -f api_service_loadbalancer.yml
+            kubectl apply -f ./eks_deployment/namespace.yml
+            kubectl apply -f ./eks_deployment/postgresql_manifest.yml
+            kubectl apply -f ./eks_deployment/postgresql_service_cluster_ip.yml
+            kubectl apply -f ./eks_deployment/api_manifest.yml
+            kubectl apply -f ./eks_deployment/api_service_loadbalancer.yml
 
       - name: Deploy UI
         run: |
             BACKEND_HOSTNAME=$(kubectl -n olha-namespace get svc backend-lb -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-            sed -i "s@\"API_URL\":.*@\"API_URL\": \"$BACKEND_HOSTNAME/\"@" config_map.yml
-            kubectl apply -f config_map.yml
-            kubectl apply -f ui_manifest.yml
-            kubectl apply -f ui_service_loadbalancer.yml
+            sed -i "s@\"API_URL\":.*@\"API_URL\": \"$BACKEND_HOSTNAME/\"@" ./eks_deployment/config_map.yml
+            kubectl apply -f ./eks_deployment/config_map.yml
+            kubectl apply -f ./eks_deployment/ui_manifest.yml
+            kubectl apply -f ./eks_deployment/ui_service_loadbalancer.yml
