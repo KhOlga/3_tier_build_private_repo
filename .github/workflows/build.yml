@@ -11,8 +11,8 @@ env:
   AWS_REGION: ${{ vars.AWS_REGION}}
 
 jobs:
-  docker:
-    name: docker
+  docker_images:
+    name: docker_images
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -55,7 +55,7 @@ jobs:
   eks_deploy:
     name: eks_deploy
     runs-on: ubuntu-latest
-    needs: build
+    needs: docker_images
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
