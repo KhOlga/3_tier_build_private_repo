@@ -11,17 +11,40 @@ env:
   USER_NAME: ${{secrets.USER_NAME}}
 
 jobs:
+  ansible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: install_docker.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible
+          # Optional, ansible configuration file content (ansible.cfg)
+          configuration: |
+            [defaults]
+            callbacks_enabled = ansible.posix.profile_tasks, ansible.posix.timer
+            stdout_callback = yaml
+            nocows = false
+          # Optional, SSH private key
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Optional, literal inventory file contents
+          inventory: |
+            [all]
+            oha-docker-ec2: ansible_host=3.71.77.111 ansible_ssh_user=ubuntu ansible_connection=ssh ansible_ssh_private_key_file=test-test-test.pem
+
   docker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Deploy application
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           
               rm -rf 3_tier_app_solution_k8s &&
-              git clone https://github.com/saurabhd2106/3_tier_app_solution_k8s.git &&
-              cd 3_tier_app_solution_k8s &&
+              git clone https://github.com/KhOlga/3_tier_build_private_repo.git &&
+              cd 3_tier_build_private_repo &&
               sudo docker compose up -d
               '
