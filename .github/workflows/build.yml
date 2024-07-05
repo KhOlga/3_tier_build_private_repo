@@ -69,16 +69,16 @@ jobs:
 
       - name: Deploy DB & API to EKS
         run: |
-            kubectl apply -f ./namespace.yml
-            kubectl apply -f ./postgresql_manifest.yml
-            kubectl apply -f ./postgresql_service_cluster_ip.yml
-            kubectl apply -f ./api_manifest.yml
-            kubectl apply -f ./api_service_loadbalancer.yml
+            kubectl apply -f namespace.yml
+            kubectl apply -f postgresql_manifest.yml
+            kubectl apply -f postgresql_service_cluster_ip.yml
+            kubectl apply -f api_manifest.yml
+            kubectl apply -f api_service_loadbalancer.yml
 
       - name: Deploy UI
         run: |
             BACKEND_HOSTNAME=$(kubectl -n olha-namespace get svc backend-lb -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-            sed -i "s@\"API_URL\":.*@\"API_URL\": \"$BACKEND_HOSTNAME/\"@" ./config_map.yml
-            kubectl apply -f ./config_map.yml
-            kubectl apply -f ./ui_manifest.yml
-            kubectl apply -f ./ui_service_loadbalancer.yml
+            sed -i "s@\"API_URL\":.*@\"API_URL\": \"$BACKEND_HOSTNAME/\"@" config_map.yml
+            kubectl apply -f config_map.yml
+            kubectl apply -f ui_manifest.yml
+            kubectl apply -f ui_service_loadbalancer.yml
