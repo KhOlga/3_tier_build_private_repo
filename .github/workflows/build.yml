@@ -11,7 +11,7 @@ env:
   USER_NAME: ${{secrets.USER_NAME}}
 
 jobs:
-  ansible:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Run playbook
@@ -23,14 +23,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION}}
           aws_access_key_id: ${{ vars.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          ansible_tags: >-
-            auth,
-            env-vars,
-            info
 
-  docker:
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v2
       - name: Deploy application
         run: |
