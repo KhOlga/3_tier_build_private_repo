@@ -57,13 +57,43 @@ services:
       - webapi
       - basic-3tier-postgres
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
+
 volumes:
   postgres_data:
   pgadmin_data:
+  prometheus-data:
+  grafana-storage:
+
 
 networks:
   basic3tier:
     name: basic3tier
+    driver: bridge
+  monitoring:
     driver: bridge
 
 # docker network create basic3tier

@@ -29,7 +29,7 @@ inbound_rule = {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    name        = "olha-sg-rule-allow_http"
+    name        = "olha-sg-rule-allow-http"
   }
 
   allow_ssh_traffic = {
@@ -37,7 +37,7 @@ inbound_rule = {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    name        = "olha-sg-rule-allow_ssh"
+    name        = "olha-sg-rule-allow-ssh"
   }
 
   allow_https_traffic = {
@@ -45,7 +45,39 @@ inbound_rule = {
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    name        = "olha-sg-rule-allow_https"
+    name        = "olha-sg-rule-allow-https"
+  }
+
+  allow_grafana_port_traffic = {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-grafana-port"
+  }
+
+  allow_ui_port_traffic = {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-ui-port"
+  }
+
+  allow_api_port_traffic = {
+    from_port   = 7000
+    to_port     = 7000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-api-port"
+  }
+
+  allow_prometheus_port_traffic = {
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-prometheus-port"
   }
 }
 
