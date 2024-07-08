@@ -3,7 +3,7 @@ name: Push Frontend and Backend image to Docker HUb
 on:
   push:
     branches:
-      - 'docker-compose-deployment'
+      - 'master'
 
 env:
   PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
