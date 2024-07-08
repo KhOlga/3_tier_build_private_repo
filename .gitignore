@@ -1,3 +1,14 @@
+### General ###
 .idea
+
 api/oldDockerfile
-ansible/oha-docker-ec2-ssh-key.pem
+
+### Ansible ###
+ansible/olha-aws-eu-west-2-ssh-key.pem
+
+### Terraform ###
+terraform/.terraform
+terraform/terraform.tfstate
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate.backup
+terraform/olha-aws-eu-west-2-ssh-key.pem
