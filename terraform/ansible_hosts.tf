@@ -3,7 +3,7 @@ resource "local_file" "ansible_hosts" {
   content  = <<EOF
 all:
   hosts:
-    olha-web-server:
+    olha_public_server:
       ansible_host: ${aws_instance.server["public"].public_ip}
       ansible_user: ubuntu
       ansible_ssh_user: ubuntu
