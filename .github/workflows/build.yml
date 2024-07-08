@@ -1,4 +1,4 @@
-name: Push Frontend and Backend image to Docker HUb
+name: Deploy application
 
 on:
   push:
