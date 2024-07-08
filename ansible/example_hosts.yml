@@ -1,6 +1,6 @@
 all:
   hosts:
-    oha-docker-ec2:
+    olha-web-server:
       ansible_host: 3.72.18.32
       ansible_ssh_user: ubuntu
       ansible_connection: ssh
