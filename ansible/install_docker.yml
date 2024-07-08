@@ -1,5 +1,5 @@
 ---
-- name: Install Docker
+- name: Install Docker & Git
   hosts: all
   become: true
   tasks:
@@ -13,6 +13,7 @@
         pkg:
           - ca-certificates
           - curl
+          - git
         state: latest
 
     - name: Create directory for apt keyrings

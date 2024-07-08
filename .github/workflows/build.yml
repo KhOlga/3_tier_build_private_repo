@@ -14,23 +14,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Run playbook
-        uses: gbh-tech/ansible-deployment@v0.0.3
-        with:
-          playbook_path: 'ansible'
-          playbook_name: 'install_docker.yml'
-          workdir: 'ansible'
-          aws_region: ${{ vars.AWS_REGION}}
-          aws_access_key_id: ${{ vars.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
       - uses: actions/checkout@v2
       - name: Deploy application
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           
-              rm -rf 3_tier_build_private_repo &&
+#              rm -rf 3_tier_build_private_repo &&
               git clone https://github.com/KhOlga/3_tier_build_private_repo.git &&
               cd 3_tier_build_private_repo &&
               sudo docker compose up -d
