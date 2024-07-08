@@ -1,79 +1,29 @@
-name: Deploy to EKS
+name: Push Frontend and Backend image to Docker HUb
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - 'docker-compose-deployment'
 
 env:
-  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME}}
-  AWS_REGION: ${{ vars.AWS_REGION}}
+  PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  HOSTNAME: ${{secrets.SSH_HOST}}
+  USER_NAME: ${{secrets.USER_NAME}}
 
 jobs:
   deploy:
-    name: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Check out code
+      - name: Check
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # Build UI image and push to DockerHub
-      - name: Build and push UI
-        uses: docker/build-push-action@v6
-        with:
-          platforms: linux/amd64,linux/arm64
-          file: ./ui/Dockerfile
-          push: true
-          tags: |
-            kholha/ui-app:latest
-            kholha/ui-app:1.0.0
-
-      # Build API image WITHOUT CACHE and push to DockerHub
-#      - name: Build and push API
-#        uses: docker/build-push-action@v6
-#        with:
-#          platforms: linux/amd64,linux/arm64
-#          context: "{{defaultContext}}:api"
-#          push: true
-#          tags: |
-#            kholha/api-app:latest
-#            kholha/api-app:1.0.0
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-
-      - name: Deploy DB & API to EKS
+      - name: Deploy application
         run: |
-            kubectl apply -f ./eks_deployment/namespace.yml
-            kubectl apply -f ./eks_deployment/postgresql_manifest.yml
-            kubectl apply -f ./eks_deployment/postgresql_service_cluster_ip.yml
-            kubectl apply -f ./eks_deployment/api_manifest.yml
-            kubectl apply -f ./eks_deployment/api_service_loadbalancer.yml
-
-      - name: Deploy UI
-        run: |
-            BACKEND_HOSTNAME=$(kubectl -n olha-namespace get svc olha-api-app-loadbalancer-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-            sed -i "s@\"API_URL\":.*@\"API_URL\": \"$BACKEND_HOSTNAME/\"@" ./eks_deployment/config_map.yml
-            kubectl apply -f ./eks_deployment/config_map.yml
-            kubectl apply -f ./eks_deployment/ui_manifest.yml
-            kubectl apply -f ./eks_deployment/ui_service_loadbalancer.yml
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+              rm -rf 3_tier_build_private_repo &&
+              git clone https://github.com/KhOlga/3_tier_build_private_repo.git &&
+              cd 3_tier_build_private_repo &&
+              git checkout docker-compose-deployment &&
+              sudo docker compose up -d
+              '
