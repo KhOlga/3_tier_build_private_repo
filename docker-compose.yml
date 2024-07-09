@@ -57,7 +57,7 @@ services:
       - basic-3tier-postgres
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
     container_name: prometheus
     ports:
       - "9090:9090"
