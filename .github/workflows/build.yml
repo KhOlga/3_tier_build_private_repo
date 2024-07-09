@@ -25,6 +25,5 @@ jobs:
               rm -rf 3_tier_build_private_repo &&
               git clone https://github.com/KhOlga/3_tier_build_private_repo.git &&
               cd 3_tier_build_private_repo &&
-              git checkout docker-compose-deployment &&
               sudo docker compose up -d
               '
