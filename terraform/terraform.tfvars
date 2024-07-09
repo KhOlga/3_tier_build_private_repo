@@ -79,6 +79,14 @@ inbound_rule = {
     cidr_blocks = ["0.0.0.0/0"]
     name        = "olha-sg-rule-prometheus-port"
   }
+
+#   allow_node_explorer_port_traffic = {
+#   from_port   = 9100
+#   to_port     = 9100
+#   protocol    = "tcp"
+#   cidr_blocks = ["0.0.0.0/0"]
+#   name        = "olha-sg-rule-node_explorer-port"
+#   }
 }
 
 instances = {
