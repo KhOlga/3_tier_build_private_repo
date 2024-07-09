@@ -63,7 +63,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-config:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
 #    volumes:
 #      - ./prometheus-config:/etc/prometheus
@@ -91,7 +91,7 @@ volumes:
   postgres_data:
   pgadmin_data:
   prometheus-data:
-#  prometheus-config:
+  prometheus-config:
   grafana-data:
 
 
