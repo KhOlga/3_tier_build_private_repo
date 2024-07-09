@@ -17,7 +17,7 @@ jobs:
       - name: Check
         uses: actions/checkout@v4
 
-      - name: Deploy application
+      - name: Deploy application and run docker containers
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
