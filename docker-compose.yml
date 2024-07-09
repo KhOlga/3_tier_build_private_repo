@@ -102,6 +102,14 @@ services:
     networks:
       - monitoring
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis/data:/data
+
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -114,11 +122,6 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     depends_on:
       - redis
-    redis:
-      image: redis:latest
-      container_name: redis
-      ports:
-        - "6379:6379"
 
 volumes:
   postgres_data:
