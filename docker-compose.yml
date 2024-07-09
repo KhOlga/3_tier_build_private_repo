@@ -59,16 +59,20 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    restart: unless-stopped
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus-config:/etc/prometheus
-      - ./prometheus-data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+#    volumes:
+#      - ./prometheus-config:/etc/prometheus
+#      - ./prometheus-data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
-    entrypoint:
-      - sleep
-      - inf
+#    entrypoint:
+#      - sleep
+#      - inf
     networks:
       - monitoring
 
@@ -87,7 +91,7 @@ volumes:
   postgres_data:
   pgadmin_data:
   prometheus-data:
-  prometheus-config:
+#  prometheus-config:
   grafana-data:
 
 
