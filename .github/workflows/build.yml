@@ -22,7 +22,7 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
               
-              rm -rf 3_tier_build_private_repo &&
+              sudo rm -rf 3_tier_build_private_repo &&
               git clone https://github.com/KhOlga/3_tier_build_private_repo.git &&
               cd 3_tier_build_private_repo &&
               sudo docker compose up -d
