@@ -65,9 +65,6 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus-data:/prometheus
-    entrypoint:
-      - sleep
-      - inf
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
     networks:
