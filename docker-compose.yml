@@ -66,6 +66,9 @@ services:
       - prometheus-data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+    entrypoint:
+      - sleep
+      - inf
     networks:
       - monitoring
 
