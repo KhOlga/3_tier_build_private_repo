@@ -87,6 +87,22 @@ inbound_rule = {
 #   cidr_blocks = ["0.0.0.0/0"]
 #   name        = "olha-sg-rule-node_explorer-port"
 #   }
+
+#   allow_cadvisor_port_traffic = {
+#   from_port   = 8080
+#   to_port     = 8080
+#   protocol    = "tcp"
+#   cidr_blocks = ["0.0.0.0/0"]
+#   name        = "olha-sg-rule-cadvisor-port"
+#   }
+
+#   allow_redis_port_traffic = {
+#   from_port   = 6379
+#   to_port     = 6379
+#   protocol    = "tcp"
+#   cidr_blocks = ["0.0.0.0/0"]
+#   name        = "olha-sg-rule-redis-port"
+#   }
 }
 
 instances = {
