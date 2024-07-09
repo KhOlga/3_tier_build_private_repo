@@ -1,5 +1,5 @@
 # Use an official Nginx runtime as the base image
-FROM nginx:alpine
+FROM nginx:latest
 
 # Copy your frontend files (HTML, JavaScript, CSS, etc.) to the default Nginx web root directory
 COPY . /usr/share/nginx/html
