@@ -62,8 +62,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:/etc/prometheus
-      - prometheus-data:/prometheus
+      - ./prometheus-config:/etc/prometheus
+      - ./prometheus-data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
     entrypoint:
@@ -87,6 +87,7 @@ volumes:
   postgres_data:
   pgadmin_data:
   prometheus-data:
+  prometheus-config:
   grafana-data:
 
 
@@ -95,6 +96,7 @@ networks:
     name: basic3tier
     driver: bridge
   monitoring:
+    name: monitoring
     driver: bridge
 
 # docker network create basic3tier
