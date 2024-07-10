@@ -8,6 +8,6 @@ all:
       ansible_user: ubuntu
       ansible_ssh_user: ubuntu
       ansible_connection: ssh
-      ansible_ssh_private_key_file: olha-aws-eu-west-2-ssh-key.pem
+      ansible_ssh_private_key_file: ${var.ssh_key_path}
   EOF
 }

@@ -29,7 +29,7 @@ services:
     networks:
       - basic3tier
 
-  # # .NET Core WebAPI Service
+  # .NET Core WebAPI Service
   webapi:
     image: kholha/api-app:latest
     container_name: basic-3tier-api
@@ -57,7 +57,7 @@ services:
       - basic-3tier-postgres
 
   node-exporter:
-    image: prom/node-exporter:latest
+    image: quay.io/prometheus/node-exporter:latest
     container_name: node-exporter
     restart: unless-stopped
     volumes:
@@ -92,7 +92,7 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana-enterprise
+    image: grafana/grafana-oss
     container_name: grafana
     restart: unless-stopped
     ports:

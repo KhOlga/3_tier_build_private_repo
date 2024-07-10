@@ -4,16 +4,18 @@ vpc_name = "olha_vpc"
 
 internet_gateway_name = "olha-igw"
 
-ami_image     = "ami-07c1b39b7b3d2525d"
+#ami_image     = "ami-07c1b39b7b3d2525d"
+ami_image     = "ami-0062b622072515714"
 instance_type = "t2.micro"
 
-ssh_key_name = "olha-aws-eu-west-2-ssh-key"
+ssh_key_name = "olha-aws-eu-west-3-ssh-key"
+ssh_key_path = "olha-aws-eu-west-3-ssh-key.pem"
 
 subnets = {
   public_subnet = {
     map_public_ip_on_launch = true
     cidr_block              = "10.0.1.0/24"
-    availability_zone       = "eu-west-2a"
+    availability_zone       = "eu-west-3a"
     name                    = "olha-public-subnet"
   }
 }
@@ -80,34 +82,42 @@ inbound_rule = {
     name        = "olha-sg-rule-prometheus-port"
   }
 
-#   allow_node_explorer_port_traffic = {
-#   from_port   = 9100
-#   to_port     = 9100
-#   protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-#   name        = "olha-sg-rule-node_explorer-port"
-#   }
+  allow_node_explorer_port_traffic = {
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-node_explorer-port"
+  }
 
-#   allow_cadvisor_port_traffic = {
-#   from_port   = 8080
-#   to_port     = 8080
-#   protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-#   name        = "olha-sg-rule-cadvisor-port"
-#   }
+  allow_cadvisor_port_traffic = {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-cadvisor-port"
+  }
 
-#   allow_redis_port_traffic = {
-#   from_port   = 6379
-#   to_port     = 6379
-#   protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-#   name        = "olha-sg-rule-redis-port"
-#   }
+  allow_redis_port_traffic = {
+    from_port   = 6379
+    to_port     = 6379
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-redis-port"
+  }
+
+  allow_grafana_loki_port_traffic = {
+    from_port   = 3100
+    to_port     = 3100
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    name        = "olha-sg-rule-grafana_loki-port"
+  }
 }
 
 instances = {
   public = {
-    availability_zone           = "eu-west-2a"
+    availability_zone           = "eu-west-3a"
     associate_public_ip_address = true
     name                        = "olha_public_server"
   }

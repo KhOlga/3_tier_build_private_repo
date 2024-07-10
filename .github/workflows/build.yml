@@ -26,4 +26,6 @@ jobs:
               git clone https://github.com/KhOlga/3_tier_build_private_repo.git &&
               cd 3_tier_build_private_repo &&
               sudo docker compose up -d
+              git clone https://github.com/grafana/loki $GOPATH/src/github.com/grafana/loki
+              make loki
               '

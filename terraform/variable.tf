@@ -21,7 +21,13 @@ variable "ami_image" {
 }
 
 variable "ssh_key_name" {
-  description = "Path to public key"
+  description = "Name to private key"
+  type        = string
+  sensitive   = true
+}
+
+variable "ssh_key_path" {
+  description = "Path to private key"
   type        = string
   sensitive   = true
 }

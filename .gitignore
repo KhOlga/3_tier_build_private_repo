@@ -5,6 +5,7 @@ api/oldDockerfile
 
 ### Ansible ###
 ansible/olha-aws-eu-west-2-ssh-key.pem
+ansible/olha-aws-eu-west-3-ssh-key.pem
 
 ### Terraform ###
 terraform/.terraform
