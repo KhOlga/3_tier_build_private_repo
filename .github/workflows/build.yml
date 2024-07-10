@@ -27,7 +27,6 @@ jobs:
               cd 3_tier_build_private_repo &&
               sudo docker compose up -d &&
               cd ../ &&
-              git clone https://github.com/grafana/loki &&
-              $GOPATH/src/github.com/grafana/loki &&
-              make loki
+              sudo apt-get update -y
+              sudo apt-get install loki promtail
               '
