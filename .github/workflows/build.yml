@@ -27,6 +27,11 @@ jobs:
               cd 3_tier_build_private_repo &&
               sudo docker compose up -d &&
               cd ../ &&
-              sudo apt-get update -y
-              sudo apt-get install loki promtail
+              sudo rm -rf loki/ &&
+              sudo mkdir loki &&
+              cd loki
+              sudo wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/cmd/loki/loki-local-config.yaml -O loki-config.yaml &&
+              sudo wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/clients/cmd/promtail/promtail-docker-config.yaml -O promtail-config.yaml &&
+              sudo docker run --name loki -d -v $(pwd):/mnt/config -p 3100:3100 grafana/loki:3.0.0 -config.file=/mnt/config/loki-config.yaml &&
+              sudo docker run --name promtail -d -v $(pwd):/mnt/config -v /var/log:/var/log --link loki grafana/promtail:3.0.0 -config.file=/mnt/config/promtail-config.yaml
               '
